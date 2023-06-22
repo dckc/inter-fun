@@ -89,17 +89,16 @@ const makeMarshal = (_v2s, convertSlotToVal = (s, _i) => s) => {
 };
 
 const PASS_STYLE = Symbol.for('passStyle');
-const Far = (iface) => {
+const Far = (iface, methods) => {
   const proto = freeze(
     create(objectPrototype, {
       [PASS_STYLE]: { value: 'remotable' },
       [Symbol.toStringTag]: { value: iface },
     })
   );
-  const r = {};
-  setPrototypeOf(r, proto);
-  freeze(r);
-  return r;
+  setPrototypeOf(methods, proto);
+  freeze(methods);
+  return methods;
 };
 
 // export { makeUnmarshal };

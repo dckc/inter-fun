@@ -84,6 +84,10 @@ const kindInfo = /** @type {const} */ ({
     // shape: BrandShape,
     coerce: x => /** @type {Brand} */ (x),
   },
+  oracleBrand: {
+    // shape: BrandShape,
+    coerce: x => /** @type {Brand} */ (x),
+  },
   instance: {
     // shape: InstanceShape,
     coerce: x => /** @type {Instance} */ (x),
@@ -121,6 +125,7 @@ const makeAgoricNames = async (boardCtx, queryService) => {
   const agoricNames = await deeplyFulfilledObject(
     harden({
       brand: getKind('brand', kindInfo.brand.coerce),
+      oracleBrand: getKind('oracleBrand', kindInfo.oracleBrand.coerce),
       instance: getKind('instance', kindInfo.instance.coerce),
       vbankAsset: getKind('vbankAsset', kindInfo.vbankAsset.coerce),
     }),
@@ -140,6 +145,7 @@ const makeBoardClient = queryService => {
 
   return harden({
     queryService,
+    board: boardCtx.board,
     provideAgoricNames: async () => {
       if (agoricNames) return agoricNames;
       agoricNames = await makeAgoricNames(boardCtx, queryService);
