@@ -28,9 +28,11 @@ const makeBoardContext = () => {
     }
     if (!iface) throw Fail`1st occurrence must provide iface`;
     const json = { _: iface };
+    // const methods = { toJSON: () => json };
+    const methods = {};
     // XXX ok to leave iface alone?
     /** @type {{}} */
-    const value = Far(iface, { toJSON: () => json });
+    const value = Far(iface, methods);
     idToValue.set(slot, value);
     valueToId.set(value, slot);
     return value;
