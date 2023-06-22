@@ -101,4 +101,4 @@ const Far = (iface, methods) => {
   return methods;
 };
 
-// export { makeUnmarshal };
+export { makeMarshal, Far };

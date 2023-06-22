@@ -1,4 +1,6 @@
 'use strict';
+import { Fail } from './polyfill/ses.js';
+import { Far } from './unmarshal.js';
 
 /** @param {QueryDataResponseT} queryDataResponse */
 const extractCapData = (queryDataResponse) => {
@@ -158,3 +160,5 @@ const makeBoardClient = (queryService) => {
         .then((response) => boardCtx.ingest(extractCapData(response))),
   });
 };
+
+export { makeProvideRemotable };
