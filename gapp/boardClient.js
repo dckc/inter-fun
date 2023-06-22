@@ -10,19 +10,14 @@ const extractCapData = (queryDataResponse) => {
   return x;
 };
 
-const makeBoardContext = () => {
-  /** @type {Map<string, {}>} */
-  const idToValue = new Map();
-  /** @type {Map<unknown, string>} */
-  const valueToId = new Map();
-
+const makeProvideRemotable = (idToValue = new Map(), valueToId = new Map()) => {
   /**
    * Provide a remotable for each slot.
    *
    * @param {string} slot
    * @param {string} [iface] non-empty if present
    */
-  const provide = (slot, iface) => {
+  const provideRemotable = (slot, iface) => {
     if (idToValue.has(slot)) {
       return idToValue.get(slot) || Fail`cannot happen`; // XXX check this statically?
     }
@@ -37,6 +32,23 @@ const makeBoardContext = () => {
     valueToId.set(value, slot);
     return value;
   };
+  return provideRemotable;
+};
+
+const makeBoardContext = () => {
+  /** @type {Map<string, {}>} */
+  const idToValue = new Map();
+
+  /** @type {Map<unknown, string>} */
+  const valueToId = new Map();
+
+  /**
+   * Provide a remotable for each slot.
+   *
+   * @param {string} slot
+   * @param {string} [iface] non-empty if present
+   */
+  const provide = makeProvideRemotable(idToValue, valueToId);
 
   /** Read-only board */
   const board = {
@@ -71,7 +83,6 @@ const makeBoardContext = () => {
   });
 };
 
-
 // XXX where is this originally defined? vat-bank?
 /**
  * @typedef {{
@@ -101,7 +112,6 @@ const kindInfo = /** @type {const} */ ({
     coerce: (x) => /** @type {VBankAssetDetail} */ (x),
   },
 });
-
 
 /**
  * @param {ReturnType<typeof makeBoardContext>} boardCtx
