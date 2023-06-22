@@ -1,4 +1,5 @@
 import { uselessCalculation } from './index';
+import { enc, dec } from './fun';
 
 /**
  * Performs a useless calculation
@@ -8,3 +9,6 @@ import { uselessCalculation } from './index';
  * @customFunction
  */
 (global as any).USELESS_CALCULATION = (x: number) => uselessCalculation(x);
+
+(global as any).enc = enc;
+(global as any).dec = dec;
