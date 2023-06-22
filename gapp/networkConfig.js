@@ -5,9 +5,7 @@
  * @typedef {{ rpcAddrs: string[], chainName: string }} MinimalNetworkConfig
  */
 
-// const { freeze } = Object;
-
-const localConfig = freeze({
+const localConfig = Object.freeze({
   rpcAddrs: ['http://0.0.0.0:26657'],
   chainName: 'agoriclocal',
 });
