@@ -1,11 +1,13 @@
 // @ts-check
 import '@endo/init';
-import { testProp, fc } from '@fast-check/ava';
-import { arbKey } from './arbPassableKey.js';
 import { makeMarshal } from '@endo/marshal';
 import { arbPassable } from '@endo/pass-style/tools.js';
 import { keyEQ } from '@endo/patterns';
-import { makeIdContext, makeUnmarshal } from '../src/unmarshal.js';
+
+import { testProp, fc } from '@fast-check/ava';
+
+import { arbKey } from './arbPassableKey.js';
+import { makeIdContext, makeUnmarshal } from '../gapp/unmarshal.js';
 
 const opts = /** @type {const} */ ({ serializeBodyFormat: 'smallcaps' });
 
