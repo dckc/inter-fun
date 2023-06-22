@@ -1,7 +1,7 @@
 'use strict';
 
 /** @param {QueryDataResponseT} queryDataResponse */
-const extractCapData = queryDataResponse => {
+const extractCapData = (queryDataResponse) => {
   const str = extractStreamCellValue(queryDataResponse);
   const x = harden(JSON.parse(str));
   assertCapData(x);
@@ -37,13 +37,13 @@ const makeBoardContext = () => {
   /** Read-only board */
   const board = {
     /** @param {unknown} value */
-    getId: value => {
+    getId: (value) => {
       valueToId.has(value) || Fail`unknown value: ${value}`;
       return valueToId.get(value) || Fail`cannot happen`; // XXX check this statically?
     },
 
     /** @param {string} id */
-    getValue: id => {
+    getValue: (id) => {
       assert.typeof(id, 'string');
       idToValue.has(id) || Fail`unknown id: ${id}`;
       return idToValue.get(id) || Fail`cannot happen`; // XXX check this statically?
@@ -82,19 +82,19 @@ const makeBoardContext = () => {
 const kindInfo = /** @type {const} */ ({
   brand: {
     // shape: BrandShape,
-    coerce: x => /** @type {Brand} */ (x),
+    coerce: (x) => /** @type {Brand} */ (x),
   },
   oracleBrand: {
     // shape: BrandShape,
-    coerce: x => /** @type {Brand} */ (x),
+    coerce: (x) => /** @type {Brand} */ (x),
   },
   instance: {
     // shape: InstanceShape,
-    coerce: x => /** @type {Instance} */ (x),
+    coerce: (x) => /** @type {Instance} */ (x),
   },
   vbankAsset: {
     // shape: AssetDetailShape,
-    coerce: x => /** @type {VBankAssetDetail} */ (x),
+    coerce: (x) => /** @type {VBankAssetDetail} */ (x),
   },
 });
 
@@ -128,7 +128,7 @@ const makeAgoricNames = async (boardCtx, queryService) => {
       oracleBrand: getKind('oracleBrand', kindInfo.oracleBrand.coerce),
       instance: getKind('instance', kindInfo.instance.coerce),
       vbankAsset: getKind('vbankAsset', kindInfo.vbankAsset.coerce),
-    }),
+    })
   );
   return agoricNames;
 };
@@ -138,7 +138,7 @@ const makeAgoricNames = async (boardCtx, queryService) => {
  *
  * @param {import('@agoric/cosmic-proto/vstorage/query.js').QueryClientImpl} queryService
  */
-const makeBoardClient = queryService => {
+const makeBoardClient = (queryService) => {
   const boardCtx = makeBoardContext();
   /** @type {Awaited<ReturnType<makeAgoricNames>>} */
   let agoricNames;
@@ -152,9 +152,9 @@ const makeBoardClient = queryService => {
       return agoricNames;
     },
     /** @type {(path: string) => Promise<unknown>} */
-    readLatestHead: path =>
+    readLatestHead: (path) =>
       queryService
         .Data({ path })
-        .then(response => boardCtx.ingest(extractCapData(response))),
+        .then((response) => boardCtx.ingest(extractCapData(response))),
   });
 };
